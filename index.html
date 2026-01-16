@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Feedback Analysis - Future Interns Task 3</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        background: linear-gradient(
+          135deg,
+          #0f0f23 0%,
+          #1a1a3e 50%,
+          #16213e 100%
+        );
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+      }
+
+      /* Cover Page */
+      .cover {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(
+          135deg,
+          #0f0f23 0%,
+          #1a1a3e 50%,
+          #16213e 100%
+        );
+        background-attachment: fixed;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cover::before {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+          circle,
+          rgba(102, 126, 234, 0.15) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        top: -100px;
+        right: -100px;
+      }
+
+      .cover::after {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(118, 75, 162, 0.1) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        bottom: -50px;
+        left: -50px;
+      }
+
+      .cover h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        letter-spacing: -1px;
+        background: linear-gradient(135deg, #667eea 0%, #a78bfa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: none;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cover h2 {
+        font-size: 2rem;
+        font-weight: 300;
+        margin-bottom: 3rem;
+        opacity: 1;
+        color: #e0e7ff;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cover .task-label {
+        font-size: 1.2rem;
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.2) 0%,
+          rgba(167, 139, 250, 0.2) 100%
+        );
+        padding: 0.75rem 2.5rem;
+        border-radius: 50px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(167, 139, 250, 0.3);
+        color: #e0e7ff;
+        font-weight: 500;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Section Styles */
+      section {
+        padding: 4rem 3rem;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      section:last-child {
+        border-bottom: none;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .section-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #667eea;
+        opacity: 0.3;
+      }
+
+      h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #374151;
+        margin: 2rem 0 1rem 0;
+      }
+
+      /* Card Styles */
+      .card {
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1) 0%,
+          rgba(167, 139, 250, 0.1) 100%
+        );
+        border-radius: 12px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        border-left: 4px solid #667eea;
+        border: 1px solid rgba(167, 139, 250, 0.2);
+        backdrop-filter: blur(10px);
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .stat-card {
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.2) 0%,
+          rgba(167, 139, 250, 0.15) 100%
+        );
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px solid rgba(167, 139, 250, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .stat-card .number {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #a78bfa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .stat-card .label {
+        font-size: 1rem;
+        opacity: 1;
+        color: #e0e7ff;
+      }
+
+      /* Objectives Grid */
+      .objectives-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .objective-item {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s;
+      }
+
+      .objective-item:hover {
+        border-color: #667eea;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(102, 126, 234, 0.1);
+      }
+
+      .objective-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      /* List Styles */
+      ul {
+        list-style: none;
+        margin: 1rem 0;
+      }
+
+      ul li {
+        padding: 0.75rem 0;
+        padding-left: 2rem;
+        position: relative;
+      }
+
+      ul li:before {
+        content: "●";
+        color: #667eea;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+      }
+
+      /* Ranking Lists */
+      .ranking-list {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .ranking-item {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .ranking-item:last-child {
+        border-bottom: none;
+      }
+
+      .rank-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #667eea;
+        min-width: 60px;
+      }
+
+      .rank-content {
+        flex: 1;
+        font-size: 1.1rem;
+      }
+
+      /* Insight Boxes */
+      .insight-box {
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        border-radius: 8px;
+      }
+
+      .insight-box h4 {
+        color: #92400e;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .insight-box p {
+        color: #78350f;
+        line-height: 1.7;
+      }
+
+      /* Recommendations */
+      .recommendation {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+      }
+
+      .recommendation h4 {
+        color: #667eea;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .rec-number {
+        background: #667eea;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      /* Complaint Themes */
+      .complaint-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .complaint-tag {
+        background: #fee2e2;
+        color: #991b1b;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        border: 2px solid #fecaca;
+      }
+
+      /* Chart Images */
+      .chart-container {
+        margin: 2rem 0;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        min-height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .chart-container img {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .chart-placeholder {
+        color: #9ca3af;
+        text-align: center;
+        padding: 3rem;
+        font-style: italic;
+      }
+
+      /* Conclusion Section */
+      .conclusion {
+        background: linear-gradient(
+          135deg,
+          #0f0f23 0%,
+          #1a1a3e 50%,
+          #16213e 100%
+        );
+        background-attachment: fixed;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .conclusion::before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(102, 126, 234, 0.15) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        top: -150px;
+        right: -150px;
+      }
+
+      .conclusion::after {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+          circle,
+          rgba(167, 139, 250, 0.1) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        bottom: -100px;
+        left: -100px;
+      }
+
+      .conclusion h2 {
+        color: #e0e7ff;
+        position: relative;
+        z-index: 1;
+      }
+
+      .conclusion .section-number {
+        color: white;
+        opacity: 1;
+        font-size: 2.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .conclusion-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        position: relative;
+        z-index: 1;
+        color: #e0e7ff;
+      }
+
+      .conclusion ul li {
+        font-size: 1.1rem;
+        color: #e0e7ff;
+        position: relative;
+        z-index: 1;
+      }
+
+      .conclusion ul li:before {
+        color: #667eea;
+      }
+
+      /* Emoji Icons */
+      .emoji {
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        section {
+          padding: 3rem 2rem;
+        }
+
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .chart-container img {
+          max-width: 500px;
+        }
+
+        .stat-card .number {
+          font-size: 2.5rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          font-size: 14px;
+        }
+
+        .container {
+          max-width: 100%;
+        }
+
+        .cover {
+          height: auto;
+          min-height: 100vh;
+          padding: 2rem 1rem;
+        }
+
+        .cover h1 {
+          font-size: 2rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .cover h2 {
+          font-size: 1.2rem;
+          margin-bottom: 2rem;
+        }
+
+        .cover .task-label {
+          font-size: 0.95rem;
+          padding: 0.5rem 1.5rem;
+        }
+
+        section {
+          padding: 2rem 1.5rem;
+        }
+
+        h2 {
+          font-size: 1.5rem;
+        }
+
+        h3 {
+          font-size: 1.2rem;
+        }
+
+        .section-number {
+          font-size: 1.8rem;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        .card-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .stat-card {
+          padding: 1.5rem;
+        }
+
+        .stat-card .number {
+          font-size: 2rem;
+        }
+
+        .stat-card .label {
+          font-size: 0.9rem;
+        }
+
+        .objectives-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .objective-item {
+          padding: 1rem;
+        }
+
+        .chart-container {
+          padding: 1rem;
+          margin: 1.5rem 0;
+        }
+
+        .chart-container img {
+          max-width: 100%;
+        }
+
+        .ranking-list {
+          max-width: 100%;
+        }
+
+        .ranking-item {
+          padding: 1rem;
+        }
+
+        .rank-number {
+          font-size: 1.5rem;
+          min-width: 50px;
+        }
+
+        .rank-content {
+          font-size: 0.95rem;
+        }
+
+        .recommendation {
+          padding: 1.5rem;
+        }
+
+        .recommendation h4 {
+          font-size: 1.1rem;
+        }
+
+        ul li {
+          padding: 0.5rem 0;
+          padding-left: 1.5rem;
+        }
+
+        ul li:before {
+          left: -0.5rem;
+        }
+
+        .conclusion {
+          min-height: auto;
+        }
+
+        .conclusion-content {
+          font-size: 1rem;
+        }
+
+        .conclusion ul li {
+          font-size: 0.95rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          font-size: 13px;
+        }
+
+        .cover {
+          height: auto;
+          min-height: 100vh;
+          padding: 1.5rem 1rem;
+        }
+
+        .cover h1 {
+          font-size: 1.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .cover h2 {
+          font-size: 1rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .cover .task-label {
+          font-size: 0.85rem;
+          padding: 0.4rem 1rem;
+        }
+
+        section {
+          padding: 1.5rem 1rem;
+        }
+
+        h2 {
+          font-size: 1.3rem;
+        }
+
+        h3 {
+          font-size: 1.1rem;
+        }
+
+        .section-header {
+          margin-bottom: 1.5rem;
+        }
+
+        .section-number {
+          font-size: 1.5rem;
+        }
+
+        .card {
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+
+        .stat-card {
+          padding: 1rem;
+        }
+
+        .stat-card .number {
+          font-size: 1.8rem;
+          margin-bottom: 0.3rem;
+        }
+
+        .stat-card .label {
+          font-size: 0.85rem;
+        }
+
+        .card-grid {
+          gap: 0.75rem;
+        }
+
+        .objectives-grid {
+          gap: 1rem;
+        }
+
+        .objective-item {
+          padding: 0.75rem;
+        }
+
+        .objective-icon {
+          font-size: 1.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .chart-container {
+          padding: 0.75rem;
+          margin: 1rem 0;
+        }
+
+        .chart-container img {
+          max-width: 100%;
+        }
+
+        .ranking-item {
+          padding: 0.75rem;
+          gap: 0.5rem;
+        }
+
+        .rank-number {
+          font-size: 1.3rem;
+          min-width: 40px;
+        }
+
+        .rank-content {
+          font-size: 0.9rem;
+        }
+
+        .recommendation {
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+
+        .recommendation h4 {
+          font-size: 1rem;
+        }
+
+        .recommendation ul li {
+          font-size: 0.9rem;
+        }
+
+        .insight-box {
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+
+        .insight-box h4 {
+          font-size: 0.95rem;
+        }
+
+        .insight-box p {
+          font-size: 0.9rem;
+        }
+
+        ul li {
+          padding: 0.4rem 0;
+          padding-left: 1.2rem;
+        }
+
+        ul li:before {
+          left: -0.7rem;
+        }
+
+        .conclusion-content {
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+
+        .conclusion ul li {
+          font-size: 0.9rem;
+        }
+
+        .conclusion .section-number {
+          font-size: 1.3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Cover Page -->
+      <div class="cover">
+        <div class="task-label">Future Interns Task 3</div>
+        <h1>Student Feedback Analysis</h1>
+      </div>
+
+      <!-- Introduction -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">1.</span>
+          <h2>Introduction</h2>
+        </div>
+        <div class="card">
+          <p>
+            Student feedback is a critical indicator of teaching quality, event
+            effectiveness, and institutional engagement. This project analyzes
+            structured student survey data to evaluate satisfaction levels,
+            identify high-performing academic practices, and surface areas of
+            concern using data analytics and NLP-inspired techniques.
+          </p>
+          <p style="margin-top: 1rem">
+            The analysis is designed for college management and academic
+            coordinators to support data-driven decisions for improving student
+            experiences.
+          </p>
+        </div>
+      </section>
+
+      <!-- Objectives -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">2.</span>
+          <h2>Objective</h2>
+        </div>
+        <p style="margin-bottom: 1.5rem">
+          The primary objectives of this analysis were to:
+        </p>
+        <div class="objectives-grid">
+          <div class="objective-item">
+            <div class="objective-icon">📊</div>
+            <div>Measure overall student satisfaction</div>
+          </div>
+          <div class="objective-item">
+            <div class="objective-icon">⭐</div>
+            <div>Identify top-rated events / academic practices</div>
+          </div>
+          <div class="objective-item">
+            <div class="objective-icon">🏢</div>
+            <div>Compare satisfaction across departments</div>
+          </div>
+          <div class="objective-item">
+            <div class="objective-icon">🔍</div>
+            <div>Infer event types and compare performance</div>
+          </div>
+          <div class="objective-item">
+            <div class="objective-icon">💬</div>
+            <div>Extract common complaint themes</div>
+          </div>
+          <div class="objective-item">
+            <div class="objective-icon">✅</div>
+            <div>Provide actionable, data-backed recommendations</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dataset Overview -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">3.</span>
+          <h2>Dataset Overview</h2>
+        </div>
+        <div class="card-grid">
+          <div class="stat-card">
+            <div class="number">580</div>
+            <div class="label">Survey Entries</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">12</div>
+            <div class="label">Columns</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top: 0">Key Fields Used:</h3>
+          <ul>
+            <li>Questions → Proxy for Event / Activity</li>
+            <li>Average / Percentage → Satisfaction Score</li>
+            <li>Basic Course → Department</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- EDA -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">4.</span>
+          <h2>Exploratory Data Analysis (EDA)</h2>
+        </div>
+        <h3><span class="emoji">📌</span>Overall Satisfaction Distribution</h3>
+        <ul>
+          <li>Majority of satisfaction scores fall between 65%–90%</li>
+          <li>Indicates generally positive student perception</li>
+          <li>
+            Small tail of low satisfaction (~30–50%) highlights improvement
+            areas
+          </li>
+        </ul>
+      </section>
+
+      <!-- Required Analytical Insights -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">5.</span>
+          <h2>Required Analytical Insights</h2>
+        </div>
+        <h3>
+          <span class="emoji">🔝</span>Top 3 Highest-Rated Events / Practices
+        </h3>
+        <p style="margin-bottom: 1rem">Based on average satisfaction:</p>
+        <div class="ranking-list">
+          <div class="ranking-item">
+            <div class="rank-number">1</div>
+            <div class="rank-content">
+              Fairness of internal evaluation process
+            </div>
+          </div>
+          <div class="ranking-item">
+            <div class="rank-number">2</div>
+            <div class="rank-content">Teacher communication effectiveness</div>
+          </div>
+          <div class="ranking-item">
+            <div class="rank-number">3</div>
+            <div class="rank-content">Teacher preparation for classes</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Departments -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">6.</span>
+          <h2>Departments Hosting the Most-Liked Events</h2>
+        </div>
+        <p style="margin-bottom: 1rem">Top departments by satisfaction:</p>
+        <ul>
+          <li>MSc Information Technology</li>
+          <li>B.Com (Banking & Insurance)</li>
+          <li>Bachelor of Arts</li>
+          <li>BBA (Management Studies)</li>
+          <li>B.Com (Accounting & Finance)</li>
+        </ul>
+      </section>
+
+      <!-- Workshop vs Seminar -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">7.</span>
+          <h2>Workshop vs Seminar Satisfaction</h2>
+        </div>
+        <ul>
+          <li>
+            Most activities fall under "Other", indicating:
+            <ul style="margin-left: 2rem; margin-top: 0.5rem">
+              <li>Lack of explicit event categorization</li>
+            </ul>
+          </li>
+          <li>
+            Wide satisfaction spread:
+            <ul style="margin-left: 2rem; margin-top: 0.5rem">
+              <li>High performers near 100%</li>
+              <li>Low outliers below 40%</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <!-- NLP & Sentiment Analysis -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">8.</span>
+          <h2>NLP & Sentiment Analysis</h2>
+        </div>
+        <h3>
+          <span class="emoji">☁️</span>Common Complaint Themes (Word Cloud)
+        </h3>
+        <p style="margin-bottom: 1rem">
+          Key recurring terms from low-rated areas:
+        </p>
+        <div class="complaint-grid">
+          <div class="complaint-tag">Teaching</div>
+          <div class="complaint-tag">Use of ICT tools</div>
+          <div class="complaint-tag">Learning process</div>
+          <div class="complaint-tag">Projectors & multimedia</div>
+          <div class="complaint-tag">Identification & evaluation</div>
+          <div class="complaint-tag">Mentoring</div>
+        </div>
+      </section>
+
+      <!-- Key Findings -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">9.</span>
+          <h2>Key Findings</h2>
+        </div>
+        <ul>
+          <li>Overall student satisfaction is high, but inconsistent</li>
+          <li>Teaching quality and fairness drive positive perception</li>
+          <li>Technology usage is a major pain point</li>
+          <li>Some departments consistently outperform others</li>
+          <li>Data structure limits deeper sentiment analysis</li>
+        </ul>
+      </section>
+
+      <!-- Dashboard Summary & Insights -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">10.</span>
+          <h2>Dashboard Summary & Insights</h2>
+        </div>
+
+        <h3>1️⃣ Overall Student Satisfaction Distribution</h3>
+        <div class="chart-container" id="chart1-dash">
+          <img
+            src="Student_satisfaction_distribution.png"
+            alt="Overall Student Satisfaction Distribution"
+            style="
+              max-width: 600px;
+              width: 100%;
+              height: auto;
+              border-radius: 8px;
+            "
+          />
+        </div>
+        <ul>
+          <li>
+            The satisfaction scores are strongly concentrated between 65% and
+            90%.
+          </li>
+          <li>
+            The peak of the distribution lies around 75–85%, indicating
+            generally high student satisfaction.
+          </li>
+          <li>
+            A small but important tail below 50% exists, highlighting specific
+            problem areas that need attention.
+          </li>
+        </ul>
+        <div class="insight-box">
+          <h4>📌 Insight</h4>
+          <p>
+            Most students are satisfied, but low-performing areas cannot be
+            ignored, as they impact overall student perception and institutional
+            quality.
+          </p>
+        </div>
+
+        <h3>2️⃣ Top 3 Highest Rated Events / Questions</h3>
+        <p>The highest-rated aspects are:</p>
+        <div class="chart-container" id="chart3-dash">
+          <img
+            src="Top_3_highest_rated_question.png"
+            alt="Top 3 Highest Rated Events"
+            style="
+              max-width: 600px;
+              width: 100%;
+              height: auto;
+              border-radius: 8px;
+            "
+          />
+        </div>
+        <div class="ranking-list" style="margin: 1rem 0">
+          <div class="ranking-item">
+            <div class="rank-number">1</div>
+            <div class="rank-content">
+              Fairness of the internal evaluation process
+            </div>
+          </div>
+          <div class="ranking-item">
+            <div class="rank-number">2</div>
+            <div class="rank-content">
+              Teachers' ability to communicate concepts clearly
+            </div>
+          </div>
+          <div class="ranking-item">
+            <div class="rank-number">3</div>
+            <div class="rank-content">Teachers' preparation for classes</div>
+          </div>
+        </div>
+        <div class="insight-box">
+          <h4>📌 Insight</h4>
+          <p>
+            Students value fair assessment, clear communication, and
+            well-prepared faculty more than any other factors. These are core
+            institutional strengths.
+          </p>
+        </div>
+
+        <h3>3️⃣ Top Departments by Satisfaction</h3>
+        <p>Departments with the highest average satisfaction:</p>
+        <div class="chart-container" id="chart2-dash">
+          <img
+            src="Top Department by Satisfaction.png"
+            alt="Top Departments by Satisfaction"
+            style="
+              max-width: 600px;
+              width: 100%;
+              height: auto;
+              border-radius: 8px;
+            "
+          />
+        </div>
+        <ul>
+          <li>MSc Information Technology</li>
+          <li>B.Com (Banking & Insurance)</li>
+          <li>Bachelor of Arts</li>
+          <li>Bachelor of Management Studies</li>
+          <li>B.Com (Accounting & Finance)</li>
+        </ul>
+        <div class="insight-box">
+          <h4>📌 Insight</h4>
+          <p>
+            Programs with structured curricula, practical exposure, and
+            technology integration consistently receive higher satisfaction
+            scores.
+          </p>
+        </div>
+
+        <h3>4️⃣ Workshop vs Seminar Satisfaction Comparison</h3>
+        <div class="chart-container" id="chart5-dash">
+          <img
+            src="Workshop  vs seminar  satisfaction comparison.png"
+            alt="Workshop vs Seminar Satisfaction"
+            style="
+              max-width: 600px;
+              width: 100%;
+              height: auto;
+              border-radius: 8px;
+            "
+          />
+        </div>
+        <ul>
+          <li>
+            Most activities fall under "Other", indicating missing or unclear
+            event classification.
+          </li>
+          <li>
+            Satisfaction varies widely:
+            <ul style="margin-left: 2rem; margin-top: 0.5rem">
+              <li>Some events achieve near 100% satisfaction</li>
+              <li>A few outliers drop below 40%</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="insight-box">
+          <h4>📌 Insight</h4>
+          <p>
+            The inconsistency suggests uneven event quality and highlights the
+            need for standardized event planning and categorization.
+          </p>
+        </div>
+
+        <h3>5️⃣ Common Complaint Themes (Word Cloud)</h3>
+        <p>Frequently occurring complaint-related terms:</p>
+        <div class="chart-container" id="chart4-dash">
+          <img
+            src="Wordcloud.png"
+            alt="Common Complaint Themes Word Cloud"
+            style="
+              max-width: 600px;
+              width: 100%;
+              height: auto;
+              border-radius: 8px;
+            "
+          />
+        </div>
+        <ul>
+          <li>Teaching</li>
+          <li>Use of ICT tools</li>
+          <li>Learning process</li>
+          <li>LCD projectors / multimedia</li>
+          <li>Mentoring</li>
+          <li>Identification & evaluation clarity</li>
+        </ul>
+        <div class="insight-box">
+          <h4>📌 Insight</h4>
+          <p>
+            Dissatisfaction is driven not by subject content, but by delivery
+            methods, technology usage, and learning infrastructure.
+          </p>
+        </div>
+      </section>
+
+      <!-- Key Recommendations -->
+      <section>
+        <div class="section-header">
+          <span class="section-number">🔑</span>
+          <h2>Key Recommendations for Event Organizers</h2>
+        </div>
+
+        <div class="recommendation">
+          <h4>
+            <span class="rec-number">1</span> Improve Teaching Delivery Quality
+          </h4>
+          <ul>
+            <li>
+              Conduct regular faculty development programs on:
+              <ul style="margin-left: 2rem; margin-top: 0.5rem">
+                <li>Interactive teaching</li>
+                <li>Student engagement techniques</li>
+              </ul>
+            </li>
+            <li>
+              Encourage best-practice sharing from top-performing departments.
+            </li>
+          </ul>
+          <p style="margin-top: 1rem; font-style: italic; color: #6b7280">
+            <strong>Justification:</strong> Teaching-related factors dominate
+            both high ratings and complaint themes.
+          </p>
+        </div>
+
+        <div class="recommendation">
+          <h4>
+            <span class="rec-number">2</span> Upgrade ICT & Learning
+            Infrastructure
+          </h4>
+          <ul>
+            <li>
+              Ensure all classrooms and events have:
+              <ul style="margin-left: 2rem; margin-top: 0.5rem">
+                <li>Functional LCD projectors</li>
+                <li>Reliable audio-visual equipment</li>
+              </ul>
+            </li>
+            <li>Train faculty on effective use of ICT tools.</li>
+          </ul>
+          <p style="margin-top: 1rem; font-style: italic; color: #6b7280">
+            <strong>Justification:</strong> "ICT tools", "multimedia", and
+            "projectors" appear prominently in complaint analysis.
+          </p>
+        </div>
+
+        <div class="recommendation">
+          <h4>
+            <span class="rec-number">3</span> Standardize Event Planning &
+            Classification
+          </h4>
+          <ul>
+            <li>
+              Clearly label events as:
+              <ul style="margin-left: 2rem; margin-top: 0.5rem">
+                <li>Workshop</li>
+                <li>Seminar</li>
+                <li>Guest Lecture</li>
+                <li>Training Session</li>
+              </ul>
+            </li>
+            <li>Use standard feedback forms aligned with event type.</li>
+          </ul>
+          <p style="margin-top: 1rem; font-style: italic; color: #6b7280">
+            <strong>Justification:</strong> Poor classification limits
+            meaningful comparison and quality control.
+          </p>
+        </div>
+
+        <div class="recommendation">
+          <h4>
+            <span class="rec-number">4</span> Focus on Low-Satisfaction Areas
+          </h4>
+          <ul>
+            <li>Identify questions/events below the 25th percentile.</li>
+            <li>Conduct focused review meetings for these areas.</li>
+            <li>Introduce corrective action plans.</li>
+          </ul>
+          <p style="margin-top: 1rem; font-style: italic; color: #6b7280">
+            <strong>Justification:</strong> A small set of low performers
+            significantly affects overall satisfaction.
+          </p>
+        </div>
+
+        <div class="recommendation">
+          <h4><span class="rec-number">5</span> Improve Feedback Collection</h4>
+          <ul>
+            <li>Add open-ended comment fields in future surveys.</li>
+            <li>
+              Collect event-specific feedback immediately after completion.
+            </li>
+          </ul>
+          <p style="margin-top: 1rem; font-style: italic; color: #6b7280">
+            <strong>Justification:</strong> This will enable true sentiment
+            analysis and deeper insight generation.
+          </p>
+        </div>
+      </section>
+
+      <!-- Final Conclusion -->
+      <section class="conclusion">
+        <div class="section-header">
+          <span class="section-number" style="color: white">✅</span>
+          <h2>Final Conclusion</h2>
+        </div>
+        <div class="conclusion-content">
+          <p style="margin-bottom: 1.5rem">
+            The analysis shows that the institution performs strongly in
+            teaching fairness and communication, but faces challenges in
+            technology usage, event consistency, and delivery quality.
+          </p>
+          <p style="margin-bottom: 1rem">
+            By addressing these gaps with targeted improvements, event
+            organizers can:
+          </p>
+          <ul style="margin-bottom: 1.5rem">
+            <li>Enhance student engagement</li>
+            <li>Improve learning outcomes</li>
+            <li>Strengthen institutional reputation</li>
+            <li>Enable advanced analytics in future surveys</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
